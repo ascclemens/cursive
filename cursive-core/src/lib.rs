@@ -63,7 +63,7 @@ mod xy;
 
 mod div;
 
-pub use self::cursive::{CbSink, Cursive, ScreenId};
+pub use self::cursive::{CbSink, Cursive, ScreenId, create_cb_pair};
 pub use self::cursive_run::CursiveRunner;
 pub use self::dump::Dump;
 pub use self::printer::Printer;
