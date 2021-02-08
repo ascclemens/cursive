@@ -21,6 +21,7 @@ static DEBUG_VIEW_NAME: &str = "_cursive_debug_view";
 
 type RootView = views::OnEventView<views::ScreensView<views::StackView>>;
 
+/// Create a detached callback sink and source.
 pub fn create_cb_pair() -> (Sender<Box<dyn FnOnce(&mut Cursive) + Send>>, Receiver<Box<dyn FnOnce(&mut Cursive) + Send>>) {
     crossbeam_channel::unbounded()
 }
@@ -87,6 +88,7 @@ impl Cursive {
         Cursive::with_cb_pair(cb_sink, cb_source)
     }
     
+    /// Build Cursive using a detached callback sink and source.
     pub fn with_cb_pair(cb_sink: Sender<Box<dyn FnOnce(&mut Cursive) + Send>>, cb_source: Receiver<Box<dyn FnOnce(&mut Cursive) + Send>>) -> Self {
         let theme = theme::load_default();
 
