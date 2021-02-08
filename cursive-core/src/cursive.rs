@@ -72,7 +72,7 @@ pub type ScreenId = usize;
 /// [`send_wrapper`]: https://crates.io/crates/send_wrapper
 pub type CbSink = Sender<Box<dyn FnOnce(&mut Cursive) + Send>>;
 /// Alias for cb_source
-pub type CbSink = Receiver<Box<dyn FnOnce(&mut Cursive) + Send>>;
+pub type CbSource = Receiver<Box<dyn FnOnce(&mut Cursive) + Send>>;
 
 new_default!(Cursive);
 
