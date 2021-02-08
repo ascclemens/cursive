@@ -21,6 +21,10 @@ static DEBUG_VIEW_NAME: &str = "_cursive_debug_view";
 
 type RootView = views::OnEventView<views::ScreensView<views::StackView>>;
 
+pub fn create_cb_pair() -> (Sender<Box<dyn FnOnce(&mut Cursive) + Send>>, Receiver<Box<dyn FnOnce(&mut Cursive) + Send>>) {
+    crossbeam_channel::unbounded()
+}
+
 /// Central part of the cursive library.
 ///
 /// It initializes ncurses on creation and cleans up on drop.
@@ -78,9 +82,13 @@ impl Cursive {
     ///
     /// [`CursiveExt`]: https://docs.rs/cursive/0/cursive/trait.CursiveExt.html
     pub fn new() -> Self {
-        let theme = theme::load_default();
-
         let (cb_sink, cb_source) = crossbeam_channel::unbounded();
+
+        Cursive::with_cb_pair(cb_sink, cb_source)
+    }
+    
+    pub fn with_cb_pair(cb_sink: Sender<Box<dyn FnOnce(&mut Cursive) + Send>>, cb_source: Receiver<Box<dyn FnOnce(&mut Cursive) + Send>>) -> Self {
+        let theme = theme::load_default();
 
         let mut cursive = Cursive {
             theme,
